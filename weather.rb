@@ -1,5 +1,12 @@
 require 'rubygems'
 require 'mechanize'
+require 'mongo'
+require 'yaml'
+
+config = YAML.load_file('settings.yml')
+
+db = Mongo::Client.new([ config["DATABASE_HOST"] ], :database => config["DATABASE_NAME"])
+collection = db[:weather]
 
 url_accuweather = "http://www.accuweather.com/pt/br/brazil-weather"
 city = "São Paulo"
@@ -27,11 +34,11 @@ config.each_line do |neighborhood|
 	link = response.link_with(text: 'Situação meteorológica atual')
 	page = link.click
 
-	large_temperature = page.at('#detail-now .forecast .info .temp .large-temp').text
-	large_temperature = large_temperature.gsub!(/[^0-9]/, '').to_i
+	temperature = page.at('#detail-now .forecast .info .temp .large-temp').text
+	temperature = temperature.gsub!(/[^0-9]/, '').to_i
 
-	small_temperature = page.at('#detail-now .forecast .info .temp .small-temp').text
-	small_temperature = small_temperature.gsub!(/[^0-9]/, '').to_i
+	thermal_sensation = page.at('#detail-now .forecast .info .temp .small-temp').text
+	thermal_sensation = thermal_sensation.gsub!(/[^0-9]/, '').to_i
 
 	stats = page.at('#detail-now .more-info .stats').text.strip
 	stats = stats.gsub!(/\:/, '')
@@ -44,12 +51,12 @@ config.each_line do |neighborhood|
 	humidity = stats[humidity_index]
 	pressure = stats[pressure_index].to_f
 
-	puts '==========================================='
-	puts neighborhood
-	puts "Large Temperature: #{large_temperature}"
-	puts "Small Temperature: #{small_temperature}"
-	puts "Wind Speed: #{wind_speed}"
-	puts "Humidity: #{humidity}"
-	puts "Pressure: #{pressure}"
-	puts '==========================================='
+	doc = { neighborhood: neighborhood,
+          temperature: temperature,
+          thermal_sensation: thermal_sensation,
+          wind_speed: wind_speed,
+          humidity: humidity,
+          pressure: pressure }
+
+	collection.insert_one(doc)
 end
