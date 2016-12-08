@@ -3,7 +3,10 @@ require 'mechanize'
 require 'mongo'
 require 'yaml'
 
-config = YAML.load_file('settings.yml')
+project_path = "./"
+project_path = ARGV[0] unless ARGV[0].nil?
+
+config = YAML.load_file("#{project_path}settings.yml")
 
 db = Mongo::Client.new([ config["DATABASE_HOST"] ], :database => config["DATABASE_NAME"])
 collection = db[:air_quality]
@@ -32,9 +35,9 @@ table.element_children.each do |line|
 	quality = 'péssima' if img.include? "quadro5.gif"
 
 	doc = { region: region,
-					quality: quality,
-					index: index,
-					polluting: polluting }
+         quality: quality,
+         index: index,
+         polluting: polluting }
 
 	collection.insert_one(doc)
 end

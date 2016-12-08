@@ -31,3 +31,9 @@ not run locally you need to set these configuration in seetings.yml file.
     remove some neighborhood you should edit this file and everything will work
     well
 * Air quality: ```$ bundle exec ruby air_quality.rb```
+
+If you want to run scripts from another directory you should execute something
+like these:
+
+```$ BUNDLE_GEMFILE=<path-to-project>/Gemfile bundle exec ruby <path-to-project>/weather.rb <path-to-project>/```
+```$ BUNDLE_GEMFILE=<path-to-project>/Gemfile bundle exec ruby <path-to-project>/air_quality.rb <path-to-project>/```

@@ -3,7 +3,10 @@ require 'mechanize'
 require 'mongo'
 require 'yaml'
 
-config = YAML.load_file('settings.yml')
+project_path = "./"
+project_path = ARGV[0] unless ARGV[0].nil?
+
+config = YAML.load_file("#{project_path}settings.yml")
 
 db = Mongo::Client.new([ config["DATABASE_HOST"] ], :database => config["DATABASE_NAME"])
 collection = db[:weather]
@@ -13,7 +16,7 @@ city = "São Paulo"
 country = "BR"
 
 agent = Mechanize.new
-config = File.open('neighborhood').read
+config = File.open("#{project_path}neighborhood").read
 
 config.each_line do |neighborhood|
 	neighborhood = neighborhood.strip
