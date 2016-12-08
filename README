@@ -1,0 +1,29 @@
+# Collect data from São Paulo city
+
+This repository contains a set of scripts that collect some data about São Paulo
+city for future analysis. We use mongodb to store our date since we will collect
+a huge amount of data and in some point we will need to scale this.
+
+## Install dependencies
+
+* ruby and bundler: ```$ apt install ruby bunler -qy```
+* mongodb: ```$ apt install mongodb -qy```
+* scripts' dependencies: ```$ bundle install --path vendor/```
+
+If you have any problem during the scripts' dependencies installation, probably
+your issue will be around the nokogiri's build dependencies. So install them too:
+
+```$ apt install libxml2 zlib1g-dev libpq-dev```
+
+## Configuration
+
+* You need to create a database in your mongodb instace
+	- Login in mongodb admin shell: ```$ mongo admin```
+  - Create/use your database: ```> use sp```
+
+If you use another name (not 'sp') in your database or your mongodb instance do
+not run locally you need to set these configuration in seetings.yml file.
+
+## Collect data
+
+* Weather: ```$ bundle exec ruby weather.rb```
