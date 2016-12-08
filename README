@@ -27,3 +27,6 @@ not run locally you need to set these configuration in seetings.yml file.
 ## Collect data
 
 * Weather: ```$ bundle exec ruby weather.rb```
+  - The weather collection is based on neighborhood file, if you want to add or
+    remove some neighborhood you should edit this file and everything will work
+    well
