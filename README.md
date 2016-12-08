@@ -30,3 +30,4 @@ not run locally you need to set these configuration in seetings.yml file.
   - The weather collection is based on neighborhood file, if you want to add or
     remove some neighborhood you should edit this file and everything will work
     well
+* Air quality: ```$ bundle exec ruby air_quality.rb```
