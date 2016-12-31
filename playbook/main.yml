@@ -13,6 +13,9 @@
       register: bundlerinstalled
       when: rubyinstalled|success
 
+    - name: Install bundler
+      apt: pkg=nodejs state=installed update_cache=true
+
     - name: Install mongodb
       apt: pkg=mongodb state=installed update_cache=true
       register: mongodbinstalled
@@ -21,6 +24,7 @@
 
     - name: Clone git repo
       git: repo=https://github.com/lucaskanashiro/collect_sp_data.git dest=/opt/ accept_hostkey=true
+      register: clonerepo
 
     - name: Install build dependencies
       apt: name={{item}} state=installed update_cache=true
@@ -57,9 +61,23 @@
       notify:
         - Start nginx
 
-#    - name: Run app
-#      command: chdir=/opt/collect_sp_data/app bundle install rails s &
-#
+    - name: Create unicorn service
+      command: cp /opt/playbook/unicorn_app /etc/init.d/unicorn_app      
+      when: clonerepo
+      register: unicornservice
+
+    - name: Make unicorn service as default
+      command: update-rc.d unicorn_app defaults
+      when: unicornservice
+      notify:
+        - Start unicorn
+
+    - name: Copy nginx conf file
+      command: cp /opt/playbook/nginx.conf /etc/nginx/sites-available/default
+      when: clonerepo
+      notify:
+        - Start nginx
+
   handlers:
     - name: Start mongodb
       service: name=mongodb state=started
@@ -69,3 +87,6 @@
 
     - name: Start nginx
       service: name=nginx state=started
+
+    - name: Start unicorn
+      service: name=unicorn_app state=started
