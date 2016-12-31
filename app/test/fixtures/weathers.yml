@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  neighborhood: MyString
+  temperature: 1
+  thermal_sensation: 1
+  wind_speed: 1
+  humidity: MyString
+  pressure: 1.5
+
+two:
+  neighborhood: MyString
+  temperature: 1
+  thermal_sensation: 1
+  wind_speed: 1
+  humidity: MyString
+  pressure: 1.5

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  region: MyString
+  quality: MyString
+  index: MyString
+  polluting: MyString
+
+two:
+  region: MyString
+  quality: MyString
+  index: MyString
+  polluting: MyString

@@ -1,0 +1,33 @@
+<%= form_for(@air_quality) do |f| %>
+  <% if @air_quality.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@air_quality.errors.count, "error") %> prohibited this air_quality from being saved:</h2>
+
+      <ul>
+      <% @air_quality.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :region %><br>
+    <%= f.text_field :region %>
+  </div>
+  <div class="field">
+    <%= f.label :quality %><br>
+    <%= f.text_field :quality %>
+  </div>
+  <div class="field">
+    <%= f.label :index %><br>
+    <%= f.text_field :index %>
+  </div>
+  <div class="field">
+    <%= f.label :polluting %><br>
+    <%= f.text_field :polluting %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

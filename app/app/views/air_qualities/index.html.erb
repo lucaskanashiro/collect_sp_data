@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Air Qualities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Region</th>
+      <th>Quality</th>
+      <th>Index</th>
+      <th>Polluting</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @air_qualities.each do |air_quality| %>
+      <tr>
+        <td><%= air_quality.region %></td>
+        <td><%= air_quality.quality %></td>
+        <td><%= air_quality.index %></td>
+        <td><%= air_quality.polluting %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

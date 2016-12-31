@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Weathers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Neighborhood</th>
+      <th>Temperature</th>
+      <th>Thermal sensation</th>
+      <th>Wind speed</th>
+      <th>Humidity</th>
+      <th>Pressure</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @weathers.each do |weather| %>
+      <tr>
+        <td><%= weather.neighborhood %></td>
+        <td><%= weather.temperature %></td>
+        <td><%= weather.thermal_sensation %></td>
+        <td><%= weather.wind_speed %></td>
+        <td><%= weather.humidity %></td>
+        <td><%= weather.pressure %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

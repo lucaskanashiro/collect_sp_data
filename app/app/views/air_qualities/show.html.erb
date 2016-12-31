@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Region:</strong>
+  <%= @air_quality.region %>
+</p>
+
+<p>
+  <strong>Quality:</strong>
+  <%= @air_quality.quality %>
+</p>
+
+<p>
+  <strong>Index:</strong>
+  <%= @air_quality.index %>
+</p>
+
+<p>
+  <strong>Polluting:</strong>
+  <%= @air_quality.polluting %>
+</p>
+
+<%= link_to 'Edit', edit_air_quality_path(@air_quality) %> |
+<%= link_to 'Back', air_qualities_path %>
