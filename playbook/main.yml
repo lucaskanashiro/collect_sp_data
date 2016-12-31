@@ -1,0 +1,71 @@
+---
+- hosts: interscity-data
+  vars_files:
+    - secret
+
+  tasks:
+    - name: Install ruby
+      apt: pkg=ruby state=installed update_cache=true
+      register: rubyinstalled
+    
+    - name: Install bundler
+      apt: pkg=bundler state=installed update_cache=true
+      register: bundlerinstalled
+      when: rubyinstalled|success
+
+    - name: Install mongodb
+      apt: pkg=mongodb state=installed update_cache=true
+      register: mongodbinstalled
+      notify:
+        - Start mongodb
+
+    - name: Clone git repo
+      git: repo=https://github.com/lucaskanashiro/collect_sp_data.git dest=/opt/ accept_hostkey=true
+
+    - name: Install build dependencies
+      apt: name={{item}} state=installed update_cache=true
+      with_items:
+        - libxml2
+        - zlib1g-dev
+        - libpq-dev
+      register: builddepsinstalled
+
+    - name: Install script dependencies
+      command: chdir=/opt bundle install --path vendor/
+      when: builddepsinstalled|success
+      register: scriptdepsinstalled
+
+    - name: Add collection of weather data in crontab
+      cron: name="collect weather data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/weather.rb /opt/"
+      when: scriptdepsinstalled|success
+      notify:
+        - Start cron
+
+    - name: Add collection of air quality data in crontab
+      cron: name="collect air quality data" minute="0" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/air_quality.rb /opt/"
+      when: scriptdepsinstalled|success
+      notify:
+        - Start cron
+
+    - name: Install app dependencies
+      command: chdir=/opt/app bundle install --path vendor/
+      when: builddepsinstalled|success
+      register: appinstalled
+
+    - name: Install nginx
+      apt: pkg=nginx state=installed update_cache=true
+      notify:
+        - Start nginx
+
+#    - name: Run app
+#      command: chdir=/opt/collect_sp_data/app bundle install rails s &
+#
+  handlers:
+    - name: Start mongodb
+      service: name=mongodb state=started
+
+    - name: Start cron
+      service: name=cron state=started
+
+    - name: Start nginx
+      service: name=nginx state=started
