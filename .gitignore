@@ -1,3 +1,6 @@
 Gemfile.lock
 vendor/
 .bundle/
+playbook/secret
+playbook/vault.txt
+playbook/main.retry
