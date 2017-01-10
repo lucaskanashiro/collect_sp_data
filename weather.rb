@@ -62,7 +62,7 @@ config.each_line do |neighborhood|
          thermal_sensation: thermal_sensation,
          wind_speed: wind_speed,
          humidity: humidity,
-         pressure: pressure
+         pressure: pressure,
          timestamp: timestamp }
 
 	collection.insert_one(doc)

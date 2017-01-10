@@ -40,7 +40,7 @@ table.element_children.each do |line|
 	doc = { region: region,
          quality: quality,
          index: index,
-         polluting: polluting
+         polluting: polluting,
          timestamp: timestamp }
 
 	collection.insert_one(doc)
