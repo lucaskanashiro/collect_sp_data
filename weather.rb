@@ -2,6 +2,7 @@ require 'rubygems'
 require 'mechanize'
 require 'mongo'
 require 'yaml'
+require 'time'
 
 project_path = "./"
 project_path = ARGV[0] unless ARGV[0].nil?
@@ -54,12 +55,15 @@ config.each_line do |neighborhood|
 	humidity = stats[humidity_index]
 	pressure = stats[pressure_index].to_f
 
+ timestamp = Time.now.getutc
+
 	doc = { neighborhood: neighborhood,
-          temperature: temperature,
-          thermal_sensation: thermal_sensation,
-          wind_speed: wind_speed,
-          humidity: humidity,
-          pressure: pressure }
+         temperature: temperature,
+         thermal_sensation: thermal_sensation,
+         wind_speed: wind_speed,
+         humidity: humidity,
+         pressure: pressure
+         timestamp: timestamp }
 
 	collection.insert_one(doc)
 end

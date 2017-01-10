@@ -2,6 +2,7 @@ require 'rubygems'
 require 'mechanize'
 require 'mongo'
 require 'yaml'
+require 'time'
 
 project_path = "./"
 project_path = ARGV[0] unless ARGV[0].nil?
@@ -34,10 +35,13 @@ table.element_children.each do |line|
 	quality = 'muito ruim' if img.include? "quadro4.gif"
 	quality = 'péssima' if img.include? "quadro5.gif"
 
+ timestamp = Time.now.getutc
+
 	doc = { region: region,
          quality: quality,
          index: index,
-         polluting: polluting }
+         polluting: polluting
+         timestamp: timestamp }
 
 	collection.insert_one(doc)
 end
