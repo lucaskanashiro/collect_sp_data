@@ -7,5 +7,5 @@ class Weather
   field :wind_speed, type: Integer
   field :humidity, type: String
   field :pressure, type: Float
-  field :timestamp, type: Time
+  field :timestamp, type: String
 end

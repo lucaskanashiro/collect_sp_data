@@ -55,7 +55,7 @@ config.each_line do |neighborhood|
 	humidity = stats[humidity_index]
 	pressure = stats[pressure_index].to_f
 
- timestamp = Time.now.getutc
+ timestamp = Time.now.getutc.to_s
 
 	doc = { neighborhood: neighborhood,
          temperature: temperature,

@@ -35,7 +35,7 @@ table.element_children.each do |line|
 	quality = 'muito ruim' if img.include? "quadro4.gif"
 	quality = 'péssima' if img.include? "quadro5.gif"
 
- timestamp = Time.now.getutc
+ timestamp = Time.now.getutc.to_s
 
 	doc = { region: region,
          quality: quality,
