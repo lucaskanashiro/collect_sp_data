@@ -4,6 +4,6 @@ class WeathersController < ApplicationController
   # GET /weathers
   # GET /weathers.json
   def index
-    @weathers = Weather.all
+    @weathers = Weather.paginate(:page => params[:page], :per_page => 30)
   end
 end

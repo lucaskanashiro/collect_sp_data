@@ -9,6 +9,7 @@
       <th>Quality</th>
       <th>Index</th>
       <th>Polluting</th>
+      <th>Timestamp</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,9 +21,12 @@
         <td><%= air_quality.quality %></td>
         <td><%= air_quality.index %></td>
         <td><%= air_quality.polluting %></td>
+        <td><%= air_quality.timestamp %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<%= will_paginate @air_qualities %>
 
 <br>

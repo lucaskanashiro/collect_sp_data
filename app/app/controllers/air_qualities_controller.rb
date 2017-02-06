@@ -4,6 +4,6 @@ class AirQualitiesController < ApplicationController
   # GET /air_qualities
   # GET /air_qualities.json
   def index
-    @air_qualities = AirQuality.all
+    @air_qualities = AirQuality.paginate(:page => params[:page], :per_page => 30)
   end
 end
