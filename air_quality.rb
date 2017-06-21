@@ -5,6 +5,7 @@ require 'yaml'
 require 'time'
 require 'rest-client'
 require 'json'
+load 'interscity_entity.rb'
 
 project_path = "./"
 project_path = ARGV[0] unless ARGV[0].nil?
@@ -21,13 +22,11 @@ page = agent.get(url_cetesb)
 page.encoding = "utf-8"
 table = page.search("table tr td table.font01")[0]
 
-class AirQuality
-  attr_accessor :status, :description, :registered, :region, :quality,
-    :uuid, :timestamp, :index, :polluting
+class AirQuality < InterSCityEntity
+  attr_accessor :region, :quality, :index, :polluting
+
   def initialize(params={})
-    params.each do |key, value|
-      instance_variable_set("@#{key}", value)
-    end
+    super
     self.status = "active"
     self.description = "#{self.region} air quality"
     self.registered = false
@@ -37,42 +36,22 @@ class AirQuality
     ["air-quality", "polluting-index", "polluting"]
   end
 
-  def register_resource
-    url = ENV["INTERSCITY_ADAPTOR_HOST"] + "/components"
-
-    doc = {
-      lat: -23.559616,
-      lon: -1.55,
+  def normalized_registration_data
+    {
+      lat: -23.559616, # TODO: fakedata
+      lon: -1.55, # TODO: fakedata
       description: self.description,
       capabilities: self.capabilities,
-      status: "active",
+      status: "active"
     }
-
-    begin
-      response = RestClient.post(url, {data: doc})
-      response = JSON.parse(response)
-      self.uuid = response["data"]["uuid"]
-      self.registered = true
-    rescue RestClient::Exception => e
-      puts "ERROR: Could not register resource. Description: #{e}"
-    end
   end
 
-  def send_data
-    url = ENV["INTERSCITY_ADAPTOR_HOST"] + "/components/#{self.uuid}/data"
-
-    doc = {
+  def normalized_update_data
+    {
       air_quality: [{value: self.quality, timestamp: self.timestamp}],
       polluting_index: [{value: self.index, timestamp: self.timestamp}],
       polluting: [{value: self.polluting, timestamp: self.timestamp}]
     }
-
-    begin
-      response = RestClient.post(url, {data: doc})
-      self.registered = true
-    rescue RestClient::Exception => e
-      puts "ERROR: Could not send data from resource. Description: #{e.response}"
-    end
   end
 end
 
@@ -109,7 +88,7 @@ table.element_children.each do |line|
 
   if ENV["USE_INTERSCITY"] && ENV["INTERSCITY_ADAPTOR_HOST"]
     aq = AirQuality.new(doc)
-    aq.register_resource
+    aq.register
     if aq.registered
       resources.update("#{aq.region}" => aq)
     end

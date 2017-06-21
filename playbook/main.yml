@@ -7,7 +7,7 @@
     - name: Install ruby
       apt: pkg=ruby state=installed update_cache=true
       register: rubyinstalled
-    
+
     - name: Install bundler
       apt: pkg=bundler state=installed update_cache=true
       register: bundlerinstalled
