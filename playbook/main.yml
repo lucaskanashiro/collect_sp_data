@@ -7,7 +7,7 @@
     - name: Install ruby
       apt: pkg=ruby state=installed update_cache=true
       register: rubyinstalled
-    
+
     - name: Install bundler
       apt: pkg=bundler state=installed update_cache=true
       register: bundlerinstalled
@@ -51,6 +51,12 @@
       notify:
         - Start cron
 
+    - name: Add collection of bike stations data in crontab
+      cron: name="collect bike station data" minute="0" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/citybik.rb /opt/"
+      when: scriptdepsinstalled|success
+      notify:
+        - Start cron
+
     - name: Install app dependencies
       command: chdir=/opt/app bundle install --path vendor/
       when: builddepsinstalled|success
@@ -62,7 +68,7 @@
         - Start nginx
 
     - name: Create unicorn service
-      command: cp /opt/playbook/unicorn_app /etc/init.d/unicorn_app      
+      command: cp /opt/playbook/unicorn_app /etc/init.d/unicorn_app
       when: clonerepo
       register: unicornservice
 

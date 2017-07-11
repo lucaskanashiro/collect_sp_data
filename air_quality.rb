@@ -3,6 +3,9 @@ require 'mechanize'
 require 'mongo'
 require 'yaml'
 require 'time'
+require 'rest-client'
+require 'json'
+load 'interscity_entity.rb'
 
 project_path = "./"
 project_path = ARGV[0] unless ARGV[0].nil?
@@ -16,7 +19,43 @@ url_cetesb = "http://sistemasinter.cetesb.sp.gov.br/Ar/php/ar_resumo_hora.php"
 
 agent = Mechanize.new
 page = agent.get(url_cetesb)
+page.encoding = "utf-8"
 table = page.search("table tr td table.font01")[0]
+
+class AirQuality < InterSCityEntity
+  attr_accessor :region, :quality, :index, :polluting
+
+  def initialize(params={})
+    super
+    self.status = "active"
+    self.description = "#{self.region} air quality"
+    self.registered = false
+  end
+
+  def capabilities
+    ["air-quality", "polluting-index", "polluting"]
+  end
+
+  def normalized_registration_data
+    {
+      lat: -23.559616, # TODO: fakedata
+      lon: -1.55, # TODO: fakedata
+      description: self.description,
+      capabilities: self.capabilities,
+      status: "active"
+    }
+  end
+
+  def normalized_update_data
+    {
+      air_quality: [{value: self.quality, timestamp: self.timestamp}],
+      polluting_index: [{value: self.index, timestamp: self.timestamp}],
+      polluting: [{value: self.polluting, timestamp: self.timestamp}]
+    }
+  end
+end
+
+resources = {}
 
 table.element_children.each do |line|
 	next if line.element_children.empty?
@@ -37,11 +76,29 @@ table.element_children.each do |line|
 
  timestamp = Time.now.getutc.to_s
 
-	doc = { region: region,
-         quality: quality,
-         index: index,
-         polluting: polluting,
-         timestamp: timestamp }
+	doc = {
+    region: region,
+    quality: quality,
+    index: index,
+    polluting: polluting,
+    timestamp: timestamp
+  }
 
 	collection.insert_one(doc)
+
+  if ENV["USE_INTERSCITY"] && ENV["INTERSCITY_ADAPTOR_HOST"]
+    aq = AirQuality.new(doc)
+    aq.register
+    if aq.registered
+      resources.update("#{aq.region}" => aq)
+    end
+  else
+    puts ">>> InterSCity configuration not found <<<"
+  end
+end
+
+if ENV["USE_INTERSCITY"] && ENV["INTERSCITY_ADAPTOR_HOST"]
+  resources.each do |key, entity|
+    entity.send_data
+  end
 end

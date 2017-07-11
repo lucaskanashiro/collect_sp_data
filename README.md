@@ -31,9 +31,22 @@ not run locally you need to set these configuration in seetings.yml file.
     remove some neighborhood you should edit this file and everything will work
     well
 * Air quality: ```$ bundle exec ruby air_quality.rb```
+* Citybike: ```$ bundle exec ruby citybik.rb```
 
 If you want to run scripts from another directory you should execute something
 like these:
 
 ```$ BUNDLE_GEMFILE=<path-to-project>/Gemfile bundle exec ruby <path-to-project>/weather.rb <path-to-project>/```
 ```$ BUNDLE_GEMFILE=<path-to-project>/Gemfile bundle exec ruby <path-to-project>/air_quality.rb <path-to-project>/```
+```$ BUNDLE_GEMFILE=<path-to-project>/Gemfile bundle exec ruby <path-to-project>/citybik.rb <path-to-project>/```
+
+## InterSCity publishing
+
+To publish script's data in InterSCity platform, just:
+
+1. Configures `interscity_config.sh` with your configuration (such as the ResourceAdaptor host)
+2. Source `interscity_config.sh` file:
+```
+source interscity_config.sh
+```
+3. Run scripts
