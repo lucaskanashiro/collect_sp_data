@@ -17,7 +17,7 @@ config.each_line do |rmsp|
 
     col = collection.find(region: rmsp)
 
-    col.each do |a, idx|
+    col.each_with_index do |a, idx|
         if idx > 3
             break
         end
