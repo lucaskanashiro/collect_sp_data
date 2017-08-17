@@ -15,7 +15,15 @@ config.each_line do |rmsp|
     idx += 1
     rmsp = rmsp.strip
 
-    puts collection.find(region: rmsp).inspect
+    col = collection.find(region: rmsp)
+
+    col.each do |a, idx|
+        if idx > 3
+            break
+        end
+        puts a.inspect
+    end
+
     if idx > 10
         break
     end
