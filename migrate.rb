@@ -15,7 +15,7 @@ config.each_line do |rmsp|
     idx += 1
     rmsp = rmsp.strip
 
-    puts collection.find(region: rmsp)
+    puts collection.find(region: rmsp).inspect
     if idx > 10
         break
     end
