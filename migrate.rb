@@ -10,12 +10,14 @@ collection = db[:air_quality]
 
 config = File.open("#{project_path}rm_sp").read
 
-config.each_line do |rmsp, idx|
+idx=0
+config.each_line do |rmsp|
+    idx += 1
     rmsp = rmsp.strip
 
+    puts collection.find(region: rmsp)
     if idx > 10
         break
     end
 
-    puts collection.find(region: rmsp)
 end
