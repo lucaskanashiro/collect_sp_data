@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :bike_stations
   resources :air_qualities
   resources :weathers
   # The priority is based upon order of creation: first created -> highest priority.

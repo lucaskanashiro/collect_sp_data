@@ -68,7 +68,9 @@ networks_ids.each do |nw|
   response = RestClient.get(url)
   network = JSON.parse(response)["network"]
 
-  collection.insert_one(network)
+  network["stations"].each do |sta|
+    collection.insert_one(sta)
+  end
 
   if ENV["USE_INTERSCITY"] && ENV["INTERSCITY_ADAPTOR_HOST"]
     network["stations"].each do |sta|

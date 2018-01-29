@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Bike Stations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Free Bikes</th>
+      <th>Empty Slots</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Extra</th>
+      <th>Timestamp</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bike_stations.each do |bike_station| %>
+      <tr>
+        <td><%= bike_station.free_bikes %></td>
+        <td><%= bike_station.empty_slots %></td>
+        <td><%= bike_station.latitude %></td>
+        <td><%= bike_station.longitude %></td>
+        <td><%= bike_station.extra %></td>
+        <td><%= bike_station.timestamp %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @bike_stations %>
+
+<br>
