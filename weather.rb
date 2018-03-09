@@ -89,11 +89,15 @@ config.each_line do |neighborhood|
 	stats = stats.split(/\s/).reject(&:empty?)
 
 	humidity_index = stats.index('Humidade') + 1
+  uv_index = stats.index('UV') + 1
 	pressure_index = stats.index('Pressão') + 1
+  cloud_coverage_index = stats.index('nuvens') + 1
 
-	wind_speed = stats[0].to_i
+	wind_speed = stats[3].to_i
 	humidity = stats[humidity_index]
 	pressure = stats[pressure_index].to_f
+  uv = stats[uv_index].to_i
+  cloud_coverage = stats[cloud_coverage_index]
 
   timestamp = Time.now.getutc.to_s
 
@@ -103,6 +107,8 @@ config.each_line do |neighborhood|
          wind_speed: wind_speed,
          humidity: humidity,
          pressure: pressure,
+         uv: uv,
+         cloud_coverage: cloud_coverage,
          timestamp: timestamp }
 
   if ENV["USE_INTERSCITY"] && ENV["INTERSCITY_ADAPTOR_HOST"]
