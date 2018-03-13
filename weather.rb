@@ -4,10 +4,10 @@ require 'mongo'
 require 'yaml'
 require 'time'
 require 'rest-client'
-load 'interscity_entity.rb'
 
 project_path = "./"
 project_path = ARGV[0] unless ARGV[0].nil?
+load "#{project_path}/interscity_entity.rb"
 
 config = YAML.load_file("#{project_path}settings.yml")
 
