@@ -46,13 +46,19 @@
         - Start cron
 
     - name: Add collection of air quality data in crontab
-      cron: name="collect air quality data" minute="0" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/air_quality.rb /opt/"
+      cron: name="collect air quality data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/air_quality.rb /opt/"
       when: scriptdepsinstalled|success
       notify:
         - Start cron
 
     - name: Add collection of bike stations data in crontab
-      cron: name="collect bike station data" minute="*/30" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/citybik.rb /opt/"
+      cron: name="collect bike station data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/citybik.rb /opt/"
+      when: scriptdepsinstalled|success
+      notify:
+        - Start cron
+
+    - name: Add api_olhovivo data in crontab
+      cron: name="olho_vivo data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/olho_vivo.rb /opt/"
       when: scriptdepsinstalled|success
       notify:
         - Start cron
