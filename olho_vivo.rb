@@ -9,17 +9,19 @@ project_path = "./"
 project_path = ARGV[0] unless ARGV[0].nil?
 load "#{project_path}/interscity_entity.rb"
 
-config = YAML.load_file("#{project_path}settings.yml")
+if ARGV.length != 2
+  raise "You need to pass the token as arg!"
+end
+
+token_path = ARGV[1]
+
+config = YAML.load_file("#{project_path}/settings.yml")
 
 db = Mongo::Client.new([ config["DATABASE_HOST"] ], :database => config["DATABASE_NAME"])
 collection = db[:olho_vivo]
 
-token = ENV["OLHO_VIVO_TOKEN"]
-
-if not token
-  raise "MISSING OLHO_VIVO TOKEN. Set the environment variable `olho_vivo_token`!"
-end
-
+token = `cat /tmp/.olho_vivo_api`
+token = token.strip
 url = "http://api.olhovivo.sptrans.com.br/v2.1/Login/Autenticar?token=#{token}"
 response = RestClient.post(url, {})
 auth = response.cookies['apiCredentials']

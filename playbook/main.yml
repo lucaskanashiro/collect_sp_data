@@ -39,9 +39,6 @@
       when: builddepsinstalled|success
       register: scriptdepsinstalled
 
-    - name: Load olho_vivo token
-      command: export OLHO_VIVO_TOKEN=`cat /tmp/.olho_vivo_token`
-
     - name: Add collection of weather data in crontab
       cron: name="collect weather data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/weather.rb /opt/"
       when: scriptdepsinstalled|success
