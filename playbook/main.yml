@@ -43,7 +43,7 @@
       command: export INTERSCITY_DATA_FOLDER=`mktemp -d collection_data.XXX`
 
     - name: Load olho_vivo token
-      command: export OLHO_VIVO_TOKEN=`cat /tmp/.olho_vivo_token
+      command: export OLHO_VIVO_TOKEN=`cat /tmp/.olho_vivo_token`
 
     - name: Add collection of weather data in crontab
       cron: name="collect weather data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/weather.rb /opt/ >> /tmp/$INTERSCITY_DATA_FOLDER/weather.log 2>&1"
