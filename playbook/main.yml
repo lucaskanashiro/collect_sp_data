@@ -39,26 +39,32 @@
       when: builddepsinstalled|success
       register: scriptdepsinstalled
 
+    - name: Create folder
+      command: export INTERSCITY_DATA_FOLDER=`mktemp -d collection_data.XXX`
+
+    - name: Load olho_vivo token
+      command: export OLHO_VIVO_TOKEN=`cat /tmp/.olho_vivo_token
+
     - name: Add collection of weather data in crontab
-      cron: name="collect weather data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/weather.rb /opt/"
+      cron: name="collect weather data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/weather.rb /opt/ >> /tmp/$INTERSCITY_DATA_FOLDER/weather.log 2>&1"
       when: scriptdepsinstalled|success
       notify:
         - Start cron
 
     - name: Add collection of air quality data in crontab
-      cron: name="collect air quality data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/air_quality.rb /opt/"
+      cron: name="collect air quality data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/air_quality.rb /opt/ >> /tmp/$INTERSCITY_DATA_FOLDER/air_quality.log 2>&1"
       when: scriptdepsinstalled|success
       notify:
         - Start cron
 
     - name: Add collection of bike stations data in crontab
-      cron: name="collect bike station data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/citybik.rb /opt/"
+      cron: name="collect bike station data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/citybik.rb /opt/ >> /tmp/$INTERSCITY_DATA_FOLDER/bike_station.log 2>&1"
       when: scriptdepsinstalled|success
       notify:
         - Start cron
 
     - name: Add api_olhovivo data in crontab
-      cron: name="olho_vivo data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/olho_vivo.rb /opt/"
+      cron: name="olho_vivo data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/olho_vivo.rb /opt/ >> /tmp/$INTERSCITY_DATA_FOLDER/olho_vivo.log 2>&1"
       when: scriptdepsinstalled|success
       notify:
         - Start cron
