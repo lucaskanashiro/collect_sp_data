@@ -9,12 +9,6 @@ project_path = "./"
 project_path = ARGV[0] unless ARGV[0].nil?
 load "#{project_path}/interscity_entity.rb"
 
-if ARGV.length != 2
-  raise "You need to pass the token as arg!"
-end
-
-token_path = ARGV[1]
-
 config = YAML.load_file("#{project_path}/settings.yml")
 
 db = Mongo::Client.new([ config["DATABASE_HOST"] ], :database => config["DATABASE_NAME"])
