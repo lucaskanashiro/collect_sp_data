@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Buses</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Prefix</th>
+      <th>Lat</th>
+      <th>Lon</th>
+      <th>Display</th>
+      <th>Identifier Code</th>
+      <th>Display Origin</th>
+      <th>Display Destination</th>
+      <th>Vehicles count</th>
+      <th>Direction</th>
+      <th>Timestamp</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @buses.each do |bus| %>
+      <tr>
+        <td><%= bus.prefix %></td>
+        <td><%= bus.lat %></td>
+        <td><%= bus.lon %></td>
+        <td><%= bus.display%></td>
+        <td><%= bus.identifier_code%></td>
+        <td><%= bus.display_origin%></td>
+        <td><%= bus.display_destination%></td>
+        <td><%= bus.vehicles_count%></td>
+        <td><%= bus.direction%></td>
+        <td><%= bus.timestamp%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @buses%>
+
+<br>
