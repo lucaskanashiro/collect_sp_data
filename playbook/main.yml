@@ -15,8 +15,8 @@
 
     - name: Install pip pkgs
       command: sudo pip install utm
-      when: pipinstalled
-      register: pythonpkgsinstalled
+      when: pythonpkgsinstalled
+      register: pythondone
 
     - name: Install ruby
       apt: pkg=ruby state=installed update_cache=true
@@ -73,7 +73,7 @@
 
     - name: Add api_olhovivo data in crontab
       cron: name="olho_vivo data" minute="*/10" job="python /opt/round_coordinates.py"
-      when: pythonpkgsinstalled|success
+      when: pythondone|success
       notify:
         - Start cron
 
