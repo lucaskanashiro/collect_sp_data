@@ -4,14 +4,19 @@
     - secret
 
   tasks:
-    - name: Install pip
-      apt: pkg=pip state=installed update_cache=true
-      register: pipinstalled
+    - name: Install python deb pkgs
+      apt: name={{item}} state=installed
+      with_items:
+        - python-pip
+        - python-scipy
+        - python-pymongo
+        - python-requests
+      register: pythonpkgsinstalled
 
     - name: Install pip pkgs
-      command: chdir /opt pip install requests json utm scipy xml pymongo --user
+      command: sudo pip install utm
       when: pipinstalled
-      register: pythondepsinstalled
+      register: pythonpkgsinstalled
 
     - name: Install ruby
       apt: pkg=ruby state=installed update_cache=true
@@ -68,7 +73,7 @@
 
     - name: Add api_olhovivo data in crontab
       cron: name="olho_vivo data" minute="*/10" job="python /opt/round_coordinates.py"
-      when: pythondepsinstalled|success
+      when: pythonpkgsinstalled|success
       notify:
         - Start cron
 
