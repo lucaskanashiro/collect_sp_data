@@ -39,6 +39,7 @@ like these:
 ```$ BUNDLE_GEMFILE=<path-to-project>/Gemfile bundle exec ruby <path-to-project>/weather.rb <path-to-project>/```
 ```$ BUNDLE_GEMFILE=<path-to-project>/Gemfile bundle exec ruby <path-to-project>/air_quality.rb <path-to-project>/```
 ```$ BUNDLE_GEMFILE=<path-to-project>/Gemfile bundle exec ruby <path-to-project>/citybik.rb <path-to-project>/```
+```$ BUNDLE_GEMFILE=<path-to-project>/Gemfile bundle exec ruby <path-to-project>/olho_vivo.rb <path-to-project>/```
 
 ## InterSCity publishing
 

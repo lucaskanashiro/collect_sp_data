@@ -58,7 +58,7 @@
         - Start cron
 
     - name: Add api_olhovivo data in crontab
-      cron: name="olho_vivo data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/olho_vivo.rb /opt/ /tmp/.olho_vivo_token"
+      cron: name="olho_vivo data" minute="*/10" job="python /opt/round_coordinates.py"
       when: scriptdepsinstalled|success
       notify:
         - Start cron
