@@ -59,7 +59,7 @@ class BikeStation < InterSCityEntity
 end
 
 # add new network_ids from `https://api.citybik.es/v2/networks`
-networks_ids = ["bikesantos"]
+networks_ids = ["ciclosampa"]
 resources = {}
 base_url = "https://api.citybik.es/v2/"
 
