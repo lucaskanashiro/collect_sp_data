@@ -66,7 +66,7 @@
         - Start cron
 
     - name: Add collection of bike stations data in crontab
-      cron: name="collect bike station data" minute="*/10" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/citybik.rb /opt/"
+      cron: name="collect bike station data" minute="*/5" job="BUNDLE_GEMFILE=/opt/Gemfile bundle exec ruby /opt/citybik.rb /opt/"
       when: scriptdepsinstalled|success
       notify:
         - Start cron
