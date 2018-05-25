@@ -59,7 +59,7 @@ class BikeStation < InterSCityEntity
 end
 
 # add new network_ids from `https://api.citybik.es/v2/networks`
-networks_ids = ["ciclosampa"]
+networks_ids = ["bikesampa","ciclosampa","bikebrasilia","bikerecife","ecobici","mibici-guadalajara","mobibikes","ford-gobike","houston","relay-atlanta","divvy","citi-bike-nyc","decobike-miami-beach","toyama-cyclocity","bicing","bikemi","youbike-new-taipei","youbike-taipei","citycycle","chartered-bike-bhopal-bhopal","adcb-bikeshare","telofun","baksi-istanbul","velobike-moscow","velobike","sevici","valenbisi","santander-cycles","velib","velo","nextbike-berlin","goeteborg","oslo-bysykkel","bixi-montreal"]
 resources = {}
 base_url = "https://api.citybik.es/v2/"
 
